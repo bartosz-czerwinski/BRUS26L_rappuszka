@@ -1,12 +1,5 @@
-"""Porównywanie szablonów biometrycznych (embeddingów twarzy).
-
-InsightFace (ArcFace, model buffalo_l) zwraca embedding o wymiarze 512.
-Do porównania używamy podobieństwa kosinusowego:
-  - zakres [-1, 1], gdzie wyższa wartość = bardziej podobne twarze,
-  - ta sama osoba zwykle > ~0.4, różne osoby < ~0.3.
-
-Te funkcje są czyste (tylko numpy), więc działają w testach bez modelu ML.
-W architekturze docelowej ten moduł działa po stronie SERWERA.
+"""
+Porównywanie szablonów biometrycznych (embeddingów twarzy).
 """
 from __future__ import annotations
 

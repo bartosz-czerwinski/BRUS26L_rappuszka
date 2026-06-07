@@ -1,10 +1,5 @@
-"""Ekstrakcja szablonów biometrycznych z obrazu (InsightFace / ArcFace).
-
-W architekturze docelowej ten moduł działa po stronie KIOSKU: z klatki obrazu
-wyodrębnia embedding twarzy, który (a NIE surowe zdjęcie) jest wysyłany do serwera.
-
-Model `buffalo_l` jest pobierany automatycznie przy pierwszym użyciu (~ kilkaset MB,
-wymaga internetu). Wczytujemy go leniwie, żeby import pakietu był szybki.
+"""
+Ekstrakcja szablonów biometrycznych z obrazu (InsightFace / ArcFace).
 """
 from __future__ import annotations
 

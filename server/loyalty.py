@@ -1,7 +1,5 @@
-"""Logika identyfikacji biometrycznej po stronie serwera.
-
-Porównuje przysłany szablon (embedding) z szablonami wszystkich klientów w bazie
-i zwraca najlepsze dopasowanie, o ile przekracza próg podobieństwa.
+"""
+Porównuje przysłany szablon z szablonami wszystkich klientów w bazie
 """
 from __future__ import annotations
 
@@ -23,10 +21,8 @@ def deserialize_embedding(raw: str) -> list[float]:
 
 
 def verify_customer(db: Session, customer_id: int, embedding: list[float]) -> tuple[bool, float]:
-    """Weryfikacja 1:1 — czy przysłany szablon należy do wskazanego klienta.
-
-    Zwraca (czy_pasuje, podobieństwo). Używane przy naliczaniu i wymianie punktów,
-    żeby operacji na koncie dokonywał wyłącznie jego właściciel.
+    """
+    Weryfikacja 1:1 - czy przysłany szablon należy do wskazanego klienta.
     """
     customer = db.get(Customer, customer_id)
     if customer is None or customer.template is None:

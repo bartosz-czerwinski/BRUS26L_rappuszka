@@ -1,16 +1,5 @@
-"""Sprawdzanie twarzy / face anti-spoofing dla endpointów kiosku.
-
-Ta wersja NIE używa już heurystyk OpenCV jako fallbacku. Poprzednia heurystyka
-potrafiła przepuszczać zwykłe statyczne zdjęcie, bo z pojedynczego obrazu RGB
-nie da się wiarygodnie wywnioskować żywotności prostymi regułami.
-
-Obecnie backend działa w trybie fail-closed:
-- jeśli model ONNX anti-spoofing istnieje, uruchamia model,
-- jeśli modelu nie ma, odrzuca próbę i podaje instrukcję konfiguracji.
-
-Rekomendowany lekki model do projektu:
-facenox/face-antispoof-onnx -> models/best_model_quantized.onnx
-Zakładany format wyjścia tego modelu: dwa logity [real, spoof].
+"""
+Sprawdzanie twarzy / face anti-spoofing.
 """
 from __future__ import annotations
 
@@ -45,10 +34,8 @@ class AntiSpoofingResult:
 
 
 def embedding_after_passive_liveness_check(images: list[str]) -> list[float]:
-    """Sprawdza twarz i zwraca embedding środkowej klatki.
-
-    Funkcja jest używana przez endpointy /kiosk/*. Zwykłe endpointy embeddingowe
-    /enroll i /identify pozostają bez zmian.
+    """
+    Sprawdza twarz i zwraca embedding środkowej klatki.
     """
     if not images:
         raise ValueError("Nie przesłano żadnej klatki z kamery.")

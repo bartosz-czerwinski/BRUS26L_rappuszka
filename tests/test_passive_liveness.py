@@ -1,4 +1,3 @@
-"""Testy pasywnego liveness bez uruchamiania InsightFace ani prawdziwego ONNX."""
 from types import SimpleNamespace
 
 import numpy as np

@@ -1,4 +1,4 @@
-"""Schematy żądań/odpowiedzi API (Pydantic)."""
+"""Schematy żądań/odpowiedzi API"""
 from pydantic import BaseModel, Field
 
 

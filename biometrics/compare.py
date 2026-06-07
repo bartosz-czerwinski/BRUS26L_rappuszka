@@ -1,8 +1,4 @@
-"""CLI: porównanie dwóch zdjęć twarzy (weryfikacja Fazy 1).
-
-Użycie:
-    python -m biometrics.compare zdjecie_a.jpg zdjecie_b.jpg [--threshold 0.4]
-
+"""
 Zwraca podobieństwo kosinusowe i werdykt MATCH / NO MATCH.
 """
 from __future__ import annotations

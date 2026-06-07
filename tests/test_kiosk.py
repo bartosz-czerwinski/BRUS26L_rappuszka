@@ -1,4 +1,3 @@
-"""Testy frontendu i endpointów kiosku (wiring, bez prawdziwej twarzy)."""
 from fastapi.testclient import TestClient
 
 from server.main import app

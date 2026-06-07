@@ -1,4 +1,6 @@
-"""Modele ORM: klient, szablon biometryczny, historia transakcji punktowych."""
+"""
+Modele ORM.
+"""
 from __future__ import annotations
 
 from datetime import datetime, timezone

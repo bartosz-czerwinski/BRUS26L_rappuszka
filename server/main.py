@@ -1,8 +1,5 @@
-"""Serwer API programu lojalnościowego "Rappka" (BRUS).
-
-Faza 2: baza danych, rejestracja klientów (enroll), identyfikacja po twarzy
-(identify), naliczanie i wymiana punktów (rappsów), usuwanie danych (RODO).
-Bezpieczeństwo sieciowe (mTLS) i szyfrowanie szablonów dochodzą w Fazach 3-4.
+"""
+Serwer API
 """
 from datetime import datetime, timezone
 from pathlib import Path

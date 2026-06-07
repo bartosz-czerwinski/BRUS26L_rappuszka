@@ -1,4 +1,6 @@
-"""Konfiguracja serwera. Wartości można nadpisać zmiennymi środowiskowymi."""
+"""
+Konfiguracja serwera.
+"""
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -24,7 +26,7 @@ class Settings(BaseSettings):
 
     # Dla modelu facenox/face-antispoof-onnx wynik traktujemy jako logity [real, spoof].
     # score = sigmoid(real_logit - spoof_logit). Próg 0.75 jest dość restrykcyjny.
-    passive_liveness_threshold: float = 0.75
+    passive_liveness_threshold: float = 0.6
     anti_spoofing_onnx_path: str = "models/anti_spoofing/best_model_quantized.onnx"
     anti_spoofing_model_img_size: int = 128
     anti_spoofing_bbox_expansion_factor: float = 1.5

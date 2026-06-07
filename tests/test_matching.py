@@ -1,4 +1,3 @@
-"""Testy logiki dopasowania szablonów (bez modelu ML — syntetyczne wektory)."""
 import numpy as np
 import pytest
 

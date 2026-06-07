@@ -1,8 +1,3 @@
-"""Testy end-to-end programu lojalnościowego (Faza 2).
-
-Używają izolowanej bazy SQLite w pamięci i syntetycznych embeddingów
-(nie potrzebują modelu ML ani kamery).
-"""
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine

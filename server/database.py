@@ -1,4 +1,6 @@
-"""Konfiguracja bazy danych (SQLAlchemy). SQLite na potrzeby PoC."""
+"""
+Konfiguracja bazy danych
+"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 

@@ -1,11 +1,5 @@
-"""Samopodpisany certyfikat TLS dla serwera (PoC, Faza 3).
-
-Generuje parę certyfikat + klucz prywatny dla lokalnego HTTPS, jeśli jeszcze nie
-istnieją. Używamy biblioteki `cryptography`, więc nie jest potrzebny `openssl`.
-
-UWAGA: certyfikat jest samopodpisany — przeglądarka pokaże ostrzeżenie, które trzeba
-raz zaakceptować. W środowisku produkcyjnym użyto by certyfikatu z zaufanego CA.
-Klucz prywatny NIE trafia do repozytorium (patrz .gitignore).
+"""
+Samopodpisany certyfikat TLS dla serwera.
 """
 from __future__ import annotations
 

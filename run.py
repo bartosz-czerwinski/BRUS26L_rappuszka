@@ -1,15 +1,3 @@
-"""Uruchamia serwer Klubu Rappuszki (frontend + API) po HTTPS.
-
-Użycie (z katalogu projektu):
-    .\.venv\Scripts\python.exe run.py
-Następnie otwórz: https://127.0.0.1:8000/  (samopodpisany certyfikat — zaakceptuj
-jednorazowe ostrzeżenie przeglądarki).
-
-Uwagi:
-- `app_dir` rozwiązuje `ModuleNotFoundError: No module named 'server'` przy --reload
-  (uvicorn dodaje go do sys.path także w podprocesie reloadera).
-- Certyfikat TLS jest generowany automatycznie przy pierwszym uruchomieniu.
-"""
 from pathlib import Path
 
 import uvicorn

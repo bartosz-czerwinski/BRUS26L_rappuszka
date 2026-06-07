@@ -1,7 +1,5 @@
-"""Branding i reguły programu lojalnościowego "Rappka".
-
-Inspirowane polskimi sklepami typu convenience (punkty za zakupy + nagrody do
-wymiany), ale marka, nazwy i nagrody są fikcyjne i autorskie — na potrzeby projektu.
+"""
+Reguły programu lojalnościowego
 """
 
 BRAND = "Rappka"
