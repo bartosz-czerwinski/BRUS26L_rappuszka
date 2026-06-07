@@ -10,15 +10,19 @@
     --green-dark: #006c30;
     --green-light: #e6f6ec;
     --red: #d63031;
+    --red-dark: #b71c1c;
     --ink: #1d2b22;
   }
+
   * { box-sizing: border-box; }
+
   body {
     margin: 0;
     font-family: "Segoe UI", system-ui, sans-serif;
     background: var(--green-light);
     color: var(--ink);
   }
+
   header {
     background: var(--green);
     color: #fff;
@@ -27,8 +31,18 @@
     align-items: center;
     gap: 12px;
   }
-  header h1 { font-size: 1.4rem; margin: 0; }
-  header .tag { margin-left: auto; opacity: .9; font-size: .9rem; }
+
+  header h1 {
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  header .tag {
+    margin-left: auto;
+    opacity: .9;
+    font-size: .9rem;
+  }
+
   main {
     max-width: 920px;
     margin: 24px auto;
@@ -37,13 +51,19 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
+
   .card {
     background: #fff;
     border-radius: 16px;
     padding: 20px;
     box-shadow: 0 4px 16px rgba(0,0,0,.06);
   }
-  .card h2 { margin-top: 0; font-size: 1.1rem; }
+
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+  }
+
   video, #snapshot {
     width: 100%;
     border-radius: 12px;
@@ -51,6 +71,7 @@
     aspect-ratio: 4 / 3;
     object-fit: cover;
   }
+
   button {
     border: none;
     border-radius: 10px;
@@ -62,10 +83,41 @@
     color: #fff;
     transition: background .15s;
   }
-  button:hover { background: var(--green-dark); }
-  button.secondary { background: #eef1ef; color: var(--ink); }
-  button:disabled { opacity: .5; cursor: not-allowed; }
-  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+  button:hover {
+    background: var(--green-dark);
+  }
+
+  button.secondary {
+    background: #eef1ef;
+    color: var(--ink);
+  }
+
+  button.secondary:hover {
+    background: #dde5e0;
+  }
+
+  button.danger {
+    background: var(--red);
+    color: #fff;
+  }
+
+  button.danger:hover {
+    background: var(--red-dark);
+  }
+
+  button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  .row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
   input[type=text], input[type=number] {
     width: 100%;
     padding: 10px;
@@ -74,13 +126,28 @@
     font-size: .95rem;
     margin-top: 6px;
   }
-  label.consent { display: flex; gap: 8px; align-items: flex-start; font-size: .85rem; margin-top: 12px; color: #44554c; }
+
+  label.consent {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: .85rem;
+    margin-top: 12px;
+    color: #44554c;
+  }
+
   .balance {
     font-size: 2.4rem;
     font-weight: 800;
     color: var(--green);
   }
-  .balance small { font-size: 1rem; font-weight: 600; color: #44554c; }
+
+  .balance small {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #44554c;
+  }
+
   .reward {
     display: flex;
     align-items: center;
@@ -88,26 +155,67 @@
     padding: 10px 0;
     border-bottom: 1px solid #eef1ef;
   }
-  .reward .cost { margin-left: auto; font-weight: 700; color: var(--green-dark); }
-  .reward button { padding: 6px 12px; }
+
+  .reward .cost {
+    margin-left: auto;
+    font-weight: 700;
+    color: var(--green-dark);
+  }
+
+  .reward button {
+    padding: 6px 12px;
+  }
+
   #msg {
     margin: 0 auto 0;
     max-width: 920px;
     padding: 0 16px;
   }
+
   .toast {
     border-radius: 12px;
     padding: 12px 16px;
     margin-bottom: 8px;
     font-weight: 600;
   }
-  .toast.ok { background: #d7f3e1; color: var(--green-dark); }
-  .toast.err { background: #fde2e2; color: var(--red); }
-  .hidden { display: none; }
-  .muted { color: #6b7d73; font-size: .85rem; }
-  @media (max-width: 720px) { main { grid-template-columns: 1fr; } }
+
+  .toast.ok {
+    background: #d7f3e1;
+    color: var(--green-dark);
+  }
+
+  .toast.err {
+    background: #fde2e2;
+    color: var(--red);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .muted {
+    color: #6b7d73;
+    font-size: .85rem;
+  }
+
+  @media (max-width: 720px) {
+    main {
+      grid-template-columns: 1fr;
+    }
+
+    header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    header .tag {
+      margin-left: 0;
+    }
+  }
 </style>
 </head>
+
 <body>
 <header>
   <img src="/logo.svg" alt="Logo Rappki" style="height:44px;width:44px">
@@ -123,19 +231,26 @@
     <h2>📷 Kamera</h2>
     <video id="video" autoplay playsinline muted></video>
     <canvas id="canvas" class="hidden"></canvas>
+
     <div class="row">
       <button id="btnStart" class="secondary">Włącz kamerę</button>
       <button id="btnIdentify" disabled>Rozpoznaj mnie</button>
     </div>
-    <p class="muted">Ustaw twarz w kadrze (jedna osoba) i kliknij „Rozpoznaj mnie". System sprawdzi twarz przed rozpoznaniem.</p>
+
+    <p class="muted">
+      Ustaw twarz w kadrze (jedna osoba) i kliknij „Rozpoznaj mnie”.
+      System sprawdzi twarz przed rozpoznaniem.
+    </p>
 
     <h2 style="margin-top:22px">➕ Dołącz do klubu</h2>
     <input type="text" id="enrollName" placeholder="Imię (np. Alicja)">
+
     <label class="consent">
       <input type="checkbox" id="enrollConsent">
       Wyrażam zgodę na przetwarzanie moich danych biometrycznych (wizerunek twarzy)
       w celu udziału w programie lojalnościowym (RODO art. 9).
     </label>
+
     <div class="row">
       <button id="btnEnroll" disabled>Zarejestruj twarz</button>
     </div>
@@ -153,9 +268,11 @@
 
       <h2 style="margin-top:18px">🛒 Symuluj zakup</h2>
       <input type="number" id="purchaseAmount" placeholder="Kwota zakupu w zł" min="1" step="0.01">
+
       <div class="row">
         <button id="btnEarn">Nalicz rappsy</button>
         <button id="btnLogout" class="secondary">Wyloguj</button>
+        <button id="btnDeleteAccount" class="danger">Usuń konto</button>
       </div>
 
       <h2 style="margin-top:18px">🎁 Nagrody</h2>
@@ -168,6 +285,7 @@
 const $ = (id) => document.getElementById(id);
 const video = $("video");
 const canvas = $("canvas");
+
 let current = null;      // {customer_id, name, points_balance}
 let rewards = {};
 
@@ -175,7 +293,8 @@ const MAX_TOASTS = 3;
 
 function toast(text, kind = "ok") {
   const box = $("msg");
-  // pomiń duplikat, jeśli ten sam komunikat już wisi
+
+  // Pomijamy duplikat, jeśli ten sam komunikat już jest widoczny.
   if ([...box.children].some((c) => c.textContent === text)) return;
 
   const el = document.createElement("div");
@@ -183,26 +302,41 @@ function toast(text, kind = "ok") {
   el.textContent = text;
   box.prepend(el);
 
-  // ogranicz liczbę widocznych komunikatów — usuń najstarsze
+  // Ograniczamy liczbę widocznych komunikatów.
   while (box.children.length > MAX_TOASTS) {
     box.lastElementChild.remove();
   }
+
   setTimeout(() => el.remove(), 4000);
 }
 
-async function api(path, body) {
-  const opts = { method: body ? "POST" : "GET", headers: { "Content-Type": "application/json" } };
-  if (body) opts.body = JSON.stringify(body);
+async function api(path, body = null, method = null) {
+  const opts = {
+    method: method || (body ? "POST" : "GET"),
+    headers: { "Content-Type": "application/json" },
+  };
+
+  if (body) {
+    opts.body = JSON.stringify(body);
+  }
+
   const resp = await fetch(path, opts);
   const data = resp.status === 204 ? null : await resp.json();
-  if (!resp.ok) throw new Error(data?.detail || ("Błąd " + resp.status));
+
+  if (!resp.ok) {
+    throw new Error(data?.detail || ("Błąd " + resp.status));
+  }
+
   return data;
 }
 
 // --- kamera ---
 $("btnStart").onclick = async () => {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: 640, height: 480 }
+    });
+
     video.srcObject = stream;
     $("btnIdentify").disabled = false;
     $("btnEnroll").disabled = false;
@@ -216,9 +350,11 @@ function snapshot() {
   if (!video.srcObject || !video.videoWidth) {
     throw new Error("Najpierw włącz kamerę.");
   }
+
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   canvas.getContext("2d").drawImage(video, 0, 0);
+
   return canvas.toDataURL("image/jpeg", 0.85);
 }
 
@@ -227,21 +363,30 @@ function sleep(ms) {
 }
 
 async function passiveLivenessFrames(count = 5, delayMs = 180) {
-  // Użytkownik nie musi wykonywać żadnych poleceń. Pobieramy krótki burst klatek,
-  // a backend sprawdza twarz przed właściwym rozpoznaniem.
+  // Użytkownik nie musi wykonywać żadnych poleceń.
+  // Pobieramy krótką serię klatek, a backend sprawdza twarz przed rozpoznaniem.
   toast("Trwa sprawdzanie twarzy...");
+
   const images = [];
+
   for (let i = 0; i < count; i += 1) {
     images.push(snapshot());
-    if (i < count - 1) await sleep(delayMs);
+
+    if (i < count - 1) {
+      await sleep(delayMs);
+    }
   }
+
   return images;
 }
 
 // --- identyfikacja ---
 $("btnIdentify").onclick = async () => {
   try {
-    const data = await api("/kiosk/identify", { images: await passiveLivenessFrames() });
+    const data = await api("/kiosk/identify", {
+      images: await passiveLivenessFrames()
+    });
+
     setAccount(data);
     toast(`Rozpoznano: ${data.name}.`);
   } catch (e) {
@@ -252,10 +397,22 @@ $("btnIdentify").onclick = async () => {
 // --- rejestracja ---
 $("btnEnroll").onclick = async () => {
   const name = $("enrollName").value.trim();
-  if (!name) return toast("Podaj imię.", "err");
-  if (!$("enrollConsent").checked) return toast("Wymagana zgoda na przetwarzanie danych biometrycznych.", "err");
+
+  if (!name) {
+    return toast("Podaj imię.", "err");
+  }
+
+  if (!$("enrollConsent").checked) {
+    return toast("Wymagana zgoda na przetwarzanie danych biometrycznych.", "err");
+  }
+
   try {
-    const data = await api("/kiosk/enroll", { name, consent: true, images: await passiveLivenessFrames() });
+    const data = await api("/kiosk/enroll", {
+      name,
+      consent: true,
+      images: await passiveLivenessFrames()
+    });
+
     setAccount(data);
     $("enrollName").value = "";
     $("enrollConsent").checked = false;
@@ -267,13 +424,23 @@ $("btnEnroll").onclick = async () => {
 
 // --- punkty ---
 $("btnEarn").onclick = async () => {
+  if (!current) {
+    return toast("Najpierw rozpoznaj użytkownika.", "err");
+  }
+
   const amount = parseFloat($("purchaseAmount").value);
-  if (!(amount > 0)) return toast("Podaj kwotę zakupu.", "err");
+
+  if (!(amount > 0)) {
+    return toast("Podaj kwotę zakupu.", "err");
+  }
+
   try {
-    // weryfikacja twarzy przy zakupie: dołączamy aktualne zdjęcie z kamery
     const data = await api("/kiosk/earn", {
-      customer_id: current.customer_id, amount_pln: amount, images: await passiveLivenessFrames(),
+      customer_id: current.customer_id,
+      amount_pln: amount,
+      images: await passiveLivenessFrames()
     });
+
     setAccount(data);
     $("purchaseAmount").value = "";
     toast(`Twarz potwierdzona. Naliczono ${data.earned} rappsów!`);
@@ -282,38 +449,79 @@ $("btnEarn").onclick = async () => {
   }
 };
 
-$("btnLogout").onclick = () => setAccount(null);
+$("btnLogout").onclick = () => {
+  setAccount(null);
+};
+
+// --- usuwanie konta ---
+$("btnDeleteAccount").onclick = async () => {
+  if (!current) {
+    return toast("Najpierw rozpoznaj użytkownika.", "err");
+  }
+
+  const confirmed = confirm(
+    `Czy na pewno usunąć konto użytkownika ${current.name}?\n\n` +
+    "Usunięte zostaną dane konta, szablon biometryczny oraz historia punktów."
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    await api(`/customer/${current.customer_id}`, null, "DELETE");
+    setAccount(null);
+    $("purchaseAmount").value = "";
+    toast("Konto oraz dane biometryczne zostały usunięte.");
+  } catch (e) {
+    toast(e.message, "err");
+  }
+};
 
 // --- nagrody ---
 async function loadRewards() {
-  const data = await api("/rewards");
-  rewards = data.rewards;
-  renderRewards();
+  try {
+    const data = await api("/rewards");
+    rewards = data.rewards;
+    renderRewards();
+  } catch (e) {
+    toast("Nie udało się pobrać listy nagród: " + e.message, "err");
+  }
 }
 
 function renderRewards() {
   const box = $("rewards");
   box.innerHTML = "";
+
   for (const [id, r] of Object.entries(rewards)) {
     const enough = current && current.points_balance >= r.cost;
+
     const div = document.createElement("div");
     div.className = "reward";
     div.innerHTML = `<span>${r.name}</span><span class="cost">${r.cost}</span>`;
+
     const btn = document.createElement("button");
     btn.textContent = "Odbierz";
     btn.disabled = !enough;
     btn.onclick = () => redeem(id);
+
     div.appendChild(btn);
     box.appendChild(div);
   }
 }
 
 async function redeem(id) {
+  if (!current) {
+    return toast("Najpierw rozpoznaj użytkownika.", "err");
+  }
+
   try {
-    // weryfikacja twarzy przy odbiorze nagrody
     const data = await api("/kiosk/redeem", {
-      customer_id: current.customer_id, reward_id: id, images: await passiveLivenessFrames(),
+      customer_id: current.customer_id,
+      reward_id: id,
+      images: await passiveLivenessFrames()
     });
+
     setAccount(data);
     toast(`Twarz potwierdzona. Odebrano: ${data.reward} (-${data.spent} rappsów).`);
   } catch (e) {
@@ -324,15 +532,18 @@ async function redeem(id) {
 // --- stan konta ---
 function setAccount(data) {
   current = data;
+
   if (!data) {
     $("account").classList.add("hidden");
     $("noAccount").classList.remove("hidden");
     return;
   }
+
   $("noAccount").classList.add("hidden");
   $("account").classList.remove("hidden");
   $("custName").textContent = data.name;
   $("custPoints").textContent = data.points_balance;
+
   renderRewards();
 }
 
