@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klub Rappuszki 🐸</title>
+<style>
+  :root {
+    --green: #008d3f;
+    --green-dark: #006c30;
+    --green-light: #e6f6ec;
+    --red: #d63031;
+    --ink: #1d2b22;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: var(--green-light);
+    color: var(--ink);
+  }
+  header {
+    background: var(--green);
+    color: #fff;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  header h1 { font-size: 1.4rem; margin: 0; }
+  header .tag { margin-left: auto; opacity: .9; font-size: .9rem; }
+  main {
+    max-width: 920px;
+    margin: 24px auto;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  }
+  .card h2 { margin-top: 0; font-size: 1.1rem; }
+  video, #snapshot {
+    width: 100%;
+    border-radius: 12px;
+    background: #000;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--green);
+    color: #fff;
+    transition: background .15s;
+  }
+  button:hover { background: var(--green-dark); }
+  button.secondary { background: #eef1ef; color: var(--ink); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  input[type=text], input[type=number] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cfd8d2;
+    border-radius: 10px;
+    font-size: .95rem;
+    margin-top: 6px;
+  }
+  label.consent { display: flex; gap: 8px; align-items: flex-start; font-size: .85rem; margin-top: 12px; color: #44554c; }
+  .balance {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--green);
+  }
+  .balance small { font-size: 1rem; font-weight: 600; color: #44554c; }
+  .reward {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eef1ef;
+  }
+  .reward .cost { margin-left: auto; font-weight: 700; color: var(--green-dark); }
+  .reward button { padding: 6px 12px; }
+  #msg {
+    margin: 0 auto 0;
+    max-width: 920px;
+    padding: 0 16px;
+  }
+  .toast {
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .toast.ok { background: #d7f3e1; color: var(--green-dark); }
+  .toast.err { background: #fde2e2; color: var(--red); }
+  .hidden { display: none; }
+  .muted { color: #6b7d73; font-size: .85rem; }
+  @media (max-width: 720px) { main { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <img src="/logo.svg" alt="Logo Rappki" style="height:44px;width:44px">
+  <h1>Klub Rappuszki</h1>
+  <span class="tag">program lojalnościowy · płać twarzą, zbieraj rappsy</span>
+</header>
+
+<div id="msg"></div>
+
+<main>
+  <!-- LEWA: kamera -->
+  <section class="card">
+    <h2>📷 Kamera</h2>
+    <video id="video" autoplay playsinline muted></video>
+    <canvas id="canvas" class="hidden"></canvas>
+    <div class="row">
+      <button id="btnStart" class="secondary">Włącz kamerę</button>
+      <button id="btnIdentify" disabled>Rozpoznaj mnie</button>
+    </div>
+    <p class="muted">Ustaw twarz w kadrze (jedna osoba) i kliknij „Rozpoznaj mnie". System sprawdzi twarz przed rozpoznaniem.</p>
+
+    <h2 style="margin-top:22px">➕ Dołącz do klubu</h2>
+    <input type="text" id="enrollName" placeholder="Imię (np. Alicja)">
+    <label class="consent">
+      <input type="checkbox" id="enrollConsent">
+      Wyrażam zgodę na przetwarzanie moich danych biometrycznych (wizerunek twarzy)
+      w celu udziału w programie lojalnościowym (RODO art. 9).
+    </label>
+    <div class="row">
+      <button id="btnEnroll" disabled>Zarejestruj twarz</button>
+    </div>
+  </section>
+
+  <!-- PRAWA: konto -->
+  <section class="card" id="accountCard">
+    <h2>👤 Twoje konto</h2>
+    <div id="noAccount" class="muted">Nie rozpoznano jeszcze nikogo. Użyj kamery po lewej.</div>
+
+    <div id="account" class="hidden">
+      <p style="margin:.2rem 0 0">Cześć, <strong id="custName"></strong>! 👋</p>
+      <div class="balance"><span id="custPoints">0</span> <small>rappsów</small></div>
+      <p class="muted">🔒 Zakup i odbiór nagrody wymagają potwierdzenia twarzą — patrz w kamerę.</p>
+
+      <h2 style="margin-top:18px">🛒 Symuluj zakup</h2>
+      <input type="number" id="purchaseAmount" placeholder="Kwota zakupu w zł" min="1" step="0.01">
+      <div class="row">
+        <button id="btnEarn">Nalicz rappsy</button>
+        <button id="btnLogout" class="secondary">Wyloguj</button>
+      </div>
+
+      <h2 style="margin-top:18px">🎁 Nagrody</h2>
+      <div id="rewards"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const video = $("video");
+const canvas = $("canvas");
+let current = null;      // {customer_id, name, points_balance}
+let rewards = {};
+
+const MAX_TOASTS = 3;
+
+function toast(text, kind = "ok") {
+  const box = $("msg");
+  // pomiń duplikat, jeśli ten sam komunikat już wisi
+  if ([...box.children].some((c) => c.textContent === text)) return;
+
+  const el = document.createElement("div");
+  el.className = "toast " + kind;
+  el.textContent = text;
+  box.prepend(el);
+
+  // ogranicz liczbę widocznych komunikatów — usuń najstarsze
+  while (box.children.length > MAX_TOASTS) {
+    box.lastElementChild.remove();
+  }
+  setTimeout(() => el.remove(), 4000);
+}
+
+async function api(path, body) {
+  const opts = { method: body ? "POST" : "GET", headers: { "Content-Type": "application/json" } };
+  if (body) opts.body = JSON.stringify(body);
+  const resp = await fetch(path, opts);
+  const data = resp.status === 204 ? null : await resp.json();
+  if (!resp.ok) throw new Error(data?.detail || ("Błąd " + resp.status));
+  return data;
+}
+
+// --- kamera ---
+$("btnStart").onclick = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
+    video.srcObject = stream;
+    $("btnIdentify").disabled = false;
+    $("btnEnroll").disabled = false;
+    toast("Kamera włączona.");
+  } catch (e) {
+    toast("Nie udało się włączyć kamery: " + e.message, "err");
+  }
+};
+
+function snapshot() {
+  if (!video.srcObject || !video.videoWidth) {
+    throw new Error("Najpierw włącz kamerę.");
+  }
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+  return canvas.toDataURL("image/jpeg", 0.85);
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function passiveLivenessFrames(count = 5, delayMs = 180) {
+  // Użytkownik nie musi wykonywać żadnych poleceń. Pobieramy krótki burst klatek,
+  // a backend sprawdza twarz przed właściwym rozpoznaniem.
+  toast("Trwa sprawdzanie twarzy...");
+  const images = [];
+  for (let i = 0; i < count; i += 1) {
+    images.push(snapshot());
+    if (i < count - 1) await sleep(delayMs);
+  }
+  return images;
+}
+
+// --- identyfikacja ---
+$("btnIdentify").onclick = async () => {
+  try {
+    const data = await api("/kiosk/identify", { images: await passiveLivenessFrames() });
+    setAccount(data);
+    toast(`Rozpoznano: ${data.name}.`);
+  } catch (e) {
+    toast(e.message, "err");
+  }
+};
+
+// --- rejestracja ---
+$("btnEnroll").onclick = async () => {
+  const name = $("enrollName").value.trim();
+  if (!name) return toast("Podaj imię.", "err");
+  if (!$("enrollConsent").checked) return toast("Wymagana zgoda na przetwarzanie danych biometrycznych.", "err");
+  try {
+    const data = await api("/kiosk/enroll", { name, consent: true, images: await passiveLivenessFrames() });
+    setAccount(data);
+    $("enrollName").value = "";
+    $("enrollConsent").checked = false;
+    toast(`Witaj w klubie, ${data.name}! 🐸`);
+  } catch (e) {
+    toast(e.message, "err");
+  }
+};
+
+// --- punkty ---
+$("btnEarn").onclick = async () => {
+  const amount = parseFloat($("purchaseAmount").value);
+  if (!(amount > 0)) return toast("Podaj kwotę zakupu.", "err");
+  try {
+    // weryfikacja twarzy przy zakupie: dołączamy aktualne zdjęcie z kamery
+    const data = await api("/kiosk/earn", {
+      customer_id: current.customer_id, amount_pln: amount, images: await passiveLivenessFrames(),
+    });
+    setAccount(data);
+    $("purchaseAmount").value = "";
+    toast(`Twarz potwierdzona. Naliczono ${data.earned} rappsów!`);
+  } catch (e) {
+    toast(e.message, "err");
+  }
+};
+
+$("btnLogout").onclick = () => setAccount(null);
+
+// --- nagrody ---
+async function loadRewards() {
+  const data = await api("/rewards");
+  rewards = data.rewards;
+  renderRewards();
+}
+
+function renderRewards() {
+  const box = $("rewards");
+  box.innerHTML = "";
+  for (const [id, r] of Object.entries(rewards)) {
+    const enough = current && current.points_balance >= r.cost;
+    const div = document.createElement("div");
+    div.className = "reward";
+    div.innerHTML = `<span>${r.name}</span><span class="cost">${r.cost}</span>`;
+    const btn = document.createElement("button");
+    btn.textContent = "Odbierz";
+    btn.disabled = !enough;
+    btn.onclick = () => redeem(id);
+    div.appendChild(btn);
+    box.appendChild(div);
+  }
+}
+
+async function redeem(id) {
+  try {
+    // weryfikacja twarzy przy odbiorze nagrody
+    const data = await api("/kiosk/redeem", {
+      customer_id: current.customer_id, reward_id: id, images: await passiveLivenessFrames(),
+    });
+    setAccount(data);
+    toast(`Twarz potwierdzona. Odebrano: ${data.reward} (-${data.spent} rappsów).`);
+  } catch (e) {
+    toast(e.message, "err");
+  }
+}
+
+// --- stan konta ---
+function setAccount(data) {
+  current = data;
+  if (!data) {
+    $("account").classList.add("hidden");
+    $("noAccount").classList.remove("hidden");
+    return;
+  }
+  $("noAccount").classList.add("hidden");
+  $("account").classList.remove("hidden");
+  $("custName").textContent = data.name;
+  $("custPoints").textContent = data.points_balance;
+  renderRewards();
+}
+
+loadRewards();
+</script>
+</body>
+</html>

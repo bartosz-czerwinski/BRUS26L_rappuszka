@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Środowisko
+.env
+
+# Baza danych
+*.db
+
+# Sekrety i klucze — NIGDY nie commitować kluczy prywatnych ani certów
+certs/*.key
+certs/*.pem
+certs/*.crt
+!certs/.gitkeep
