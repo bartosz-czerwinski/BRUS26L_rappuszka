@@ -32,10 +32,10 @@ def client():
     app.dependency_overrides.clear()
 
 
-# Syntetyczne embeddingi (zamiast prawdziwych twarzy)
+# Syntetyczne embeddingi używane zamiast prawdziwych twarzy
 ALICE = [1.0, 0.0, 0.0, 0.0]
-ALICE_NOISY = [0.95, 0.05, 0.02, 0.01]   # "ta sama" twarz z lekkim szumem
-BOB = [0.0, 1.0, 0.0, 0.0]               # inna osoba (ortogonalny wektor)
+ALICE_NOISY = [0.95, 0.05, 0.02, 0.01]
+BOB = [0.0, 1.0, 0.0, 0.0]
 
 
 def _enroll(client, name, embedding, consent=True):
@@ -70,13 +70,13 @@ def test_earn_points(client):
     resp = client.post("/points/earn", json={"customer_id": cid, "amount_pln": 23.50})
     assert resp.status_code == 200
     body = resp.json()
-    assert body["earned"] == 23          # 1 rops / 1 zl, pelne zlotowki
+    assert body["earned"] == 23
     assert body["points_balance"] == 23
 
 
 def test_redeem_reward(client):
     cid = _enroll(client, "Alicja", ALICE).json()["customer_id"]
-    client.post("/points/earn", json={"customer_id": cid, "amount_pln": 250})  # 250 ropsow
+    client.post("/points/earn", json={"customer_id": cid, "amount_pln": 250})
 
     resp = client.post("/points/redeem", json={"customer_id": cid, "reward_id": "kawa"})
     assert resp.status_code == 200
@@ -87,7 +87,7 @@ def test_redeem_reward(client):
 
 def test_redeem_insufficient_points(client):
     cid = _enroll(client, "Alicja", ALICE).json()["customer_id"]
-    client.post("/points/earn", json={"customer_id": cid, "amount_pln": 10})  # tylko 10 ropsow
+    client.post("/points/earn", json={"customer_id": cid, "amount_pln": 10})
     resp = client.post("/points/redeem", json={"customer_id": cid, "reward_id": "kawa"})
     assert resp.status_code == 400
 
@@ -117,14 +117,13 @@ def test_verify_customer_1to1():
     ok_other, _ = verify_customer(db, customer.id, BOB)
     ok_missing, _ = verify_customer(db, 9999, ALICE)
 
-    assert ok_same is True          # ta sama osoba
-    assert ok_other is False        # ktos inny
-    assert ok_missing is False      # nieistniejacy klient
+    assert ok_same is True
+    assert ok_other is False
+    assert ok_missing is False
 
 
 def test_delete_customer_rodo(client):
     cid = _enroll(client, "Alicja", ALICE).json()["customer_id"]
     assert client.delete(f"/customer/{cid}").status_code == 204
-    # po usunieciu nie da sie zidentyfikowac
     assert client.post("/identify", json={"embedding": ALICE}).status_code == 404
     assert client.get(f"/customer/{cid}").status_code == 404

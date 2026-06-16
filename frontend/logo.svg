@@ -1,24 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Logo Rappki">
   <title>Rappka</title>
-  <!-- tło -->
   <circle cx="64" cy="64" r="62" fill="#e6f6ec"/>
-  <!-- głowa żaby -->
   <circle cx="64" cy="74" r="42" fill="#008d3f"/>
-  <!-- wybrzuszenia oczu -->
   <circle cx="42" cy="36" r="21" fill="#008d3f"/>
   <circle cx="86" cy="36" r="21" fill="#008d3f"/>
-  <!-- białka oczu -->
   <circle cx="42" cy="34" r="13" fill="#ffffff"/>
   <circle cx="86" cy="34" r="13" fill="#ffffff"/>
-  <!-- źrenice -->
   <circle cx="44" cy="36" r="6" fill="#10331f"/>
   <circle cx="84" cy="36" r="6" fill="#10331f"/>
-  <!-- policzki -->
   <circle cx="36" cy="78" r="7" fill="#36b865" opacity="0.7"/>
   <circle cx="92" cy="78" r="7" fill="#36b865" opacity="0.7"/>
-  <!-- nozdrza -->
   <circle cx="58" cy="62" r="2.4" fill="#0a2614"/>
   <circle cx="70" cy="62" r="2.4" fill="#0a2614"/>
-  <!-- uśmiech -->
   <path d="M44 74 q20 20 40 0" fill="none" stroke="#0a2614" stroke-width="5" stroke-linecap="round"/>
 </svg>

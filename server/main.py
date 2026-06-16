@@ -199,7 +199,7 @@ def delete_customer(customer_id: int, db: Session = Depends(get_db)) -> None:
     db.commit()
 
 
-# --- pomocnicze ---
+# Funkcje pomocnicze używane przez endpointy.
 
 def _embedding_from_passive_liveness(images: list[str]) -> list[float]:
     """Sprawdza twarz i zwraca embedding twarzy."""
@@ -232,7 +232,7 @@ def _embedding_from_image(image_data: str) -> list[float]:
 
     from biometrics.engine import extract_single_embedding
 
-    if "," in image_data:  # odetnij prefiks "data:image/jpeg;base64,"
+    if "," in image_data:
         image_data = image_data.split(",", 1)[1]
     try:
         raw = base64.b64decode(image_data)
@@ -245,13 +245,12 @@ def _embedding_from_image(image_data: str) -> list[float]:
     try:
         return extract_single_embedding(image).tolist()
     except ValueError as exc:
-        # brak twarzy lub więcej niż jedna w kadrze
         raise HTTPException(status_code=422, detail=str(exc))
 
 
 def _require_face_verification(db: Session, customer_id: int, embedding: list[float]) -> None:
     """Sprawdza, że twarz na zdjęciu należy do wskazanego klienta. Inaczej 403."""
-    _get_customer(db, customer_id)  # 404 gdy nie ma takiego klienta
+    _get_customer(db, customer_id)
     ok, _score = verify_customer(db, customer_id, embedding)
     if not ok:
         raise HTTPException(

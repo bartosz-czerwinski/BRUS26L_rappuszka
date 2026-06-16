@@ -20,7 +20,6 @@ class Customer(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120))
-    # Zgoda na przetwarzanie danych biometrycznych (RODO art. 9) — wymagana.
     consent_given: Mapped[bool] = mapped_column(default=False)
     consent_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     points_balance: Mapped[int] = mapped_column(Integer, default=0)
@@ -39,8 +38,7 @@ class BiometricTemplate(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     customer_id: Mapped[int] = mapped_column(ForeignKey("customers.id"))
-    # Embedding zapisany jako JSON (lista floatów). W Fazie 2 BEZ szyfrowania —
-    # szyfrowanie at-rest dodajemy świadomie w Fazie 4 (porównanie "przed/po").
+    # Embedding jest zapisany jako JSON z listą wartości zmiennoprzecinkowych.
     embedding: Mapped[str] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=_now)
 
@@ -52,8 +50,8 @@ class PointsTransaction(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     customer_id: Mapped[int] = mapped_column(ForeignKey("customers.id"))
-    kind: Mapped[str] = mapped_column(String(20))  # "earn" | "redeem"
-    points: Mapped[int] = mapped_column(Integer)    # dodatnie = naliczenie, ujemne = wydanie
+    kind: Mapped[str] = mapped_column(String(20))
+    points: Mapped[int] = mapped_column(Integer)
     description: Mapped[str] = mapped_column(String(200))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=_now)
 

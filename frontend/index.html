@@ -226,7 +226,6 @@
 <div id="msg"></div>
 
 <main>
-  <!-- LEWA: kamera -->
   <section class="card">
     <h2>📷 Kamera</h2>
     <video id="video" autoplay playsinline muted></video>
@@ -256,7 +255,6 @@
     </div>
   </section>
 
-  <!-- PRAWA: konto -->
   <section class="card" id="accountCard">
     <h2>👤 Twoje konto</h2>
     <div id="noAccount" class="muted">Nie rozpoznano jeszcze nikogo. Użyj kamery po lewej.</div>
@@ -286,7 +284,7 @@ const $ = (id) => document.getElementById(id);
 const video = $("video");
 const canvas = $("canvas");
 
-let current = null;      // {customer_id, name, points_balance}
+let current = null;
 let rewards = {};
 
 const MAX_TOASTS = 3;
@@ -294,7 +292,6 @@ const MAX_TOASTS = 3;
 function toast(text, kind = "ok") {
   const box = $("msg");
 
-  // Pomijamy duplikat, jeśli ten sam komunikat już jest widoczny.
   if ([...box.children].some((c) => c.textContent === text)) return;
 
   const el = document.createElement("div");
@@ -302,7 +299,6 @@ function toast(text, kind = "ok") {
   el.textContent = text;
   box.prepend(el);
 
-  // Ograniczamy liczbę widocznych komunikatów.
   while (box.children.length > MAX_TOASTS) {
     box.lastElementChild.remove();
   }
@@ -330,7 +326,6 @@ async function api(path, body = null, method = null) {
   return data;
 }
 
-// --- kamera ---
 $("btnStart").onclick = async () => {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -363,8 +358,7 @@ function sleep(ms) {
 }
 
 async function passiveLivenessFrames(count = 5, delayMs = 180) {
-  // Użytkownik nie musi wykonywać żadnych poleceń.
-  // Pobieramy krótką serię klatek, a backend sprawdza twarz przed rozpoznaniem.
+  // Krótka seria klatek jest używana do pasywnego sprawdzenia żywotności.
   toast("Trwa sprawdzanie twarzy...");
 
   const images = [];
@@ -380,7 +374,6 @@ async function passiveLivenessFrames(count = 5, delayMs = 180) {
   return images;
 }
 
-// --- identyfikacja ---
 $("btnIdentify").onclick = async () => {
   try {
     const data = await api("/kiosk/identify", {
@@ -394,7 +387,6 @@ $("btnIdentify").onclick = async () => {
   }
 };
 
-// --- rejestracja ---
 $("btnEnroll").onclick = async () => {
   const name = $("enrollName").value.trim();
 
@@ -422,7 +414,6 @@ $("btnEnroll").onclick = async () => {
   }
 };
 
-// --- punkty ---
 $("btnEarn").onclick = async () => {
   if (!current) {
     return toast("Najpierw rozpoznaj użytkownika.", "err");
@@ -453,7 +444,6 @@ $("btnLogout").onclick = () => {
   setAccount(null);
 };
 
-// --- usuwanie konta ---
 $("btnDeleteAccount").onclick = async () => {
   if (!current) {
     return toast("Najpierw rozpoznaj użytkownika.", "err");
@@ -478,7 +468,6 @@ $("btnDeleteAccount").onclick = async () => {
   }
 };
 
-// --- nagrody ---
 async function loadRewards() {
   try {
     const data = await api("/rewards");
@@ -529,7 +518,6 @@ async function redeem(id) {
   }
 }
 
-// --- stan konta ---
 function setAccount(data) {
   current = data;
 

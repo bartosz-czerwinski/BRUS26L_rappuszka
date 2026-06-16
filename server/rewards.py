@@ -3,11 +3,11 @@ Reguły programu lojalnościowego
 """
 
 BRAND = "Rappka"
-POINTS_NAME = "rappsy"       # odpowiednik punktów lojalnościowych
-POINTS_PER_PLN = 1           # 1 rapps za każdą pełną złotówkę zakupów
+POINTS_NAME = "rappsy"
+POINTS_PER_PLN = 1
 
 
-# Katalog nagród: id -> (nazwa, koszt w ropsach)
+# Katalog nagród: id -> nazwa i koszt w rappsach
 REWARDS: dict[str, dict] = {
     "kawa":       {"name": "Kawa z ekspresu", "cost": 200},
     "hotdog":     {"name": "Hot-dog klasyczny", "cost": 150},

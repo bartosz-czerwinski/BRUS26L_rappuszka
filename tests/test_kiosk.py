@@ -15,7 +15,6 @@ def test_index_is_served():
 
 
 def test_kiosk_identify_rejects_invalid_image():
-    # niepoprawne dane obrazu -> 400 (zanim dojdzie do modelu twarzy)
     resp = client.post("/kiosk/identify", json={"images": INVALID_IMAGES})
     assert resp.status_code == 400
 
